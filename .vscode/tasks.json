@@ -7,7 +7,7 @@
             "command": "make",
             "args": ["-j4", "fclean"],
             "group": {
-                "kind": "build",
+                "kind": "none",
                 "isDefault": true
             },
             "options": {

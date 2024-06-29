@@ -11,16 +11,18 @@
 			"program": "${workspaceFolder}/debug_bonus.out",
 			"args": ["0 0 0 10 255 255 255 10"],
 			"cwd": "${workspaceFolder}",
-			"preLaunchTask": "Build : Debug bonus"
+			"preLaunchTask": "Build : Debug bonus",
+			"terminal": "console"
 		},
 		{
 			"type": "lldb",
 			"request": "launch",
 			"name": "Debug Mandatory",
 			"program": "${workspaceFolder}/debug.out",
-			"args": ["0 0 0 10 255 255 255 10"],
+			"args": ["input", "ls -al", "echo -n hello world!", "~/goinfre/outfile"],
 			"cwd": "${workspaceFolder}",
-			"preLaunchTask": "Build : Debug Mandatory"
+			"preLaunchTask": "Build : Debug Mandatory",
+			"terminal": "console"
 		}
 	]
 }

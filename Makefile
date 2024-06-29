@@ -18,7 +18,12 @@ INC_B	= pipex_bouns.h
 
 LIBS	= -L ./libft -lft
 
-SRCS	= main.c 
+SRCS	= main.c \
+			get_next_line.c get_next_line_utils.c \
+			ft_printf.c ft_print_chars.c ft_print_dec.c \
+			ft_print_hex.c ft_print_pointer.c ft_print_utoa.c \
+			path_join.c
+			
 
 SRCS_B	= main_bonus.c
 
@@ -37,7 +42,7 @@ ifdef IGNORE_ERROR
 endif
 
 ifdef DEBUG_FLAG
-	CFLAGS += -g3 -fsanitize=address
+	CFLAGS += -g3  -fsanitize=address
 endif
 
 $(LIBFT) :

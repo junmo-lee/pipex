@@ -3,6 +3,9 @@
 *.out
 .DS_Store
 LAST_ALL
-libft/libft.a
+libft/*
 LAST_ALL
 pipex
+input
+outfile
+output

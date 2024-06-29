@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"unistd.h": "c",
+		"stdarg.h": "c",
+		"__functional_03": "c",
+		"functional": "c"
+	}
+}
