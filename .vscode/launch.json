@@ -19,7 +19,7 @@
 			"request": "launch",
 			"name": "Debug Mandatory",
 			"program": "${workspaceFolder}/debug.out",
-			"args": ["input", "ls -al", "echo -n hello world!", "~/goinfre/outfile"],
+			"args": ["input", "cat -e", "echo -n hello world!", "outfile"],
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Build : Debug Mandatory",
 			"terminal": "console"

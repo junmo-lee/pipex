@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 18:24:23 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/29 18:18:41 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/06/29 22:27:33 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,6 @@ typedef struct s_vars
 
 char	*path_join(char const *s1, char const *s2);
 
+int		init(t_vars *vars, int argc, char *argv[], char *envp[]);
+t_cmd	*cmd_init(t_vars *vars, char *cmd_argv);
 #endif
