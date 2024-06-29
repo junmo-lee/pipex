@@ -2,3 +2,7 @@
 *.o
 *.out
 .DS_Store
+LAST_ALL
+libft/libft.a
+LAST_ALL
+pipex
