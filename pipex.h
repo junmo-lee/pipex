@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 18:24:23 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/29 22:27:33 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/01 20:29:01 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ typedef struct s_vars
 	char			**argv;
 	char			**envp;
 	char			**path;
+	pid_t			main_pid;
 	struct s_cmd	*cmd1;
 	struct s_cmd	*cmd2;
-	int				file1_fd[2];
-	int				file2_fd[2];
+	int				file1_read_fd;
+	int				file2_write_fd;
+	int				pipe_fd[2];
 }	t_vars;
 
 
