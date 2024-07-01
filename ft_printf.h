@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 21:44:59 by junmlee           #+#    #+#             */
-/*   Updated: 2024/06/29 16:12:58 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/01 22:27:47 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,5 @@ int		print_ptr(va_list *ap);
 
 int		check_len(unsigned int n, int base_size);
 char	*ft_utoa(unsigned int n, int len, int base_size, const char *base);
-
 
 #endif

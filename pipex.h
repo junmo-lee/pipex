@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 18:24:23 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/01 20:29:01 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/01 22:28:01 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 
-
 typedef struct s_cmd
 {
 	pid_t	pid;
@@ -30,7 +29,6 @@ typedef struct s_cmd
 	char	*cmd_name;
 	int		fd[2];
 }	t_cmd;
-
 
 typedef struct s_vars
 {
@@ -46,10 +44,8 @@ typedef struct s_vars
 	int				pipe_fd[2];
 }	t_vars;
 
-
-
 char	*path_join(char const *s1, char const *s2);
-
 int		init(t_vars *vars, int argc, char *argv[], char *envp[]);
 t_cmd	*cmd_init(t_vars *vars, char *cmd_argv);
+
 #endif

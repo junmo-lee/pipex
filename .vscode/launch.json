@@ -19,7 +19,8 @@
 			"request": "launch",
 			"name": "Debug Mandatory",
 			"program": "${workspaceFolder}/debug.out",
-			"args": ["input", "cat", "echo -n hello world", "outfile"],
+			//"args": ["input", "cat", "echo -n hello world", "outfile"],
+			"args": ["/dev/urandom", "cat", "head -1", "outs/test-xx.txt"],
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Build : Debug Mandatory",
 			"terminal": "console"
