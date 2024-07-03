@@ -20,7 +20,8 @@
 			"name": "Debug Mandatory",
 			"program": "${workspaceFolder}/debug.out",
 			//"args": ["input", "cat", "echo -n hello world", "outfile"],
-			"args": ["/dev/urandom", "cat", "head -1", "outs/test-xx.txt"],
+			//"args": ["/dev/urandom", "cat", "head -1", "output.txt"],
+			"args" : ["/Users/junmlee/Desktop/pipex-tester/assets/deepthought.txt", "grep Now", "head -2", "output"],
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Build : Debug Mandatory",
 			"terminal": "console"

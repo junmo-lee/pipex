@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:41:45 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/01 22:35:52 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/03 18:42:30 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,40 +26,41 @@ int	check_cmd_access(t_vars *vars, t_cmd *cmd)
 	while (vars->path[i] != NULL)
 	{
 		temp = path_join(vars->path[i], cmd->cmd_name);
-		ft_printf("%s\n", temp);
 		if (access(temp, X_OK) == 0)
 		{
 			ft_printf("%s\n", temp);
 			cmd->cmd_path = temp;
-			return (1);
+			return (0);
 		}
 		free(temp);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
 void	do_pipex(t_vars *vars)
 {
 	pid_t	pid;
+	int		child_status;
 
 	pid = fork();
 	if (pid == -1)
 		return ;
 	else if (pid == 0)
 	{
-		close(vars->pipe_fd[1]);
-		dup2(vars->pipe_fd[0], STDIN_FILENO);
-		dup2(vars->file2_write_fd, STDOUT_FILENO);
-		warp_cmd_execve(vars->cmd2);
-	}
-	else
-	{
 		close(vars->pipe_fd[0]);
 		dup2(vars->file1_read_fd, STDIN_FILENO);
 		dup2(vars->pipe_fd[1], STDOUT_FILENO);
-		waitpid(pid, NULL, 0);
 		warp_cmd_execve(vars->cmd1);
+	}
+	else
+	{
+		ft_putnbr_fd(WIFSIGNALED(child_status),STDERR_FILENO);
+		close(vars->pipe_fd[1]);
+		dup2(vars->pipe_fd[0], STDIN_FILENO);
+		dup2(vars->file2_write_fd, STDOUT_FILENO);
+		wait(&child_status);
+		warp_cmd_execve(vars->cmd2);
 	}
 }
 
@@ -78,7 +79,7 @@ int	main(int argc, char *argv[], char *envp[])
 		return (EXIT_FAILURE);
 	pipe(vars.pipe_fd);
 	vars.file1_read_fd = open(argv[1], O_RDONLY);
-	vars.file2_write_fd = open(argv[4], O_WRONLY);
+	vars.file2_write_fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (vars.file1_read_fd == -1 || vars.file2_write_fd == -1)
 		return (EXIT_FAILURE);
 	do_pipex(&vars);

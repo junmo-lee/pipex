@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:22:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/01 22:35:31 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/03 21:35:32 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 int	import_path(t_vars *vars)
 {
 	char	*temp;
+	int		i;
 
-	while (*(vars->envp) != NULL)
+	i = 0;
+	while (vars->envp[i] != NULL)
 	{
-		if (ft_strncmp(*(vars->envp), "PATH=", 5) == 0)
+		if (ft_strncmp(vars->envp[i], "PATH=", 5) == 0)
 		{
-			vars->path = ft_split(*(vars->envp), ':');
+			vars->path = ft_split(vars->envp[i], ':');
 			if (vars->path == NULL)
 				return (1);
 			temp = vars->path[0];
@@ -29,7 +31,7 @@ int	import_path(t_vars *vars)
 			free(temp);
 			return (0);
 		}
-		(vars->envp)++;
+		i++;
 	}
 	return (1);
 }
@@ -73,6 +75,27 @@ int	parse_name_args(t_cmd *cmd, char *cmd_argv)
 	return (0);
 }
 
+int	check_cmd_access(t_vars *vars, t_cmd *cmd)
+{
+	char	*temp;
+	int		i;
+
+	i = 0;
+	while (vars->path[i] != NULL)
+	{
+		temp = path_join(vars->path[i], cmd->cmd_name);
+		if (access(temp, X_OK) == 0)
+		{
+			ft_printf("%s\n", temp);
+			cmd->cmd_path = temp;
+			return (0);
+		}
+		free(temp);
+		i++;
+	}
+	return (1);
+}
+
 t_cmd	*cmd_init(t_vars *vars, char *cmd_argv)
 {
 	t_cmd	*ret;
@@ -83,5 +106,7 @@ t_cmd	*cmd_init(t_vars *vars, char *cmd_argv)
 	ft_memset(ret, 0, sizeof(t_cmd));
 	ret->envp = vars->envp;
 	parse_name_args(ret, cmd_argv);
+	if (check_cmd_access(vars, ret))
+		exit (EXIT_FAILURE);
 	return (ret);
 }
