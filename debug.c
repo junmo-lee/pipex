@@ -6,45 +6,24 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:41:45 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/03 22:49:59 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/04 17:30:33 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int warp_cmd_execve(t_cmd *cmd)
-{
-	// ft_printf("cmd_path : %s\n", cmd->cmd_path);
-	// ft_printf("args : \n");
-	// for(int i=0;cmd->args[i] != NULL;i++)
-	// 	ft_printf("%s\n", cmd->args[i]);
-	// ft_printf("envp : \n");
-	// for(int i=0;cmd->envp[i] != NULL;i++)
-	// 	ft_printf("%s\n", cmd->envp[i]);
-	return (execve(cmd->cmd_path, cmd->args, cmd->envp));
-}
-
 void wait_processes(t_cmd *cmd[])
 {
-	int i;
+	// int i;
 	int status;
 	int count;
-	pid_t	wait_ret;
-
+	// pid_t	wait_ret;
+	cmd++;
 	count = 0;
 	while (count < 2)
 	{
-		i = 0;
-		while (i < 2)
-		{
-//			wait(&status);
-			wait_ret = waitpid(cmd[i]->pid, &status, WNOHANG);
-			if (wait_ret == -1)
-				exit(EXIT_FAILURE);
-			else if (wait_ret != 0)
-			count++;
-			i++;
-		}
+		wait(&status);
+		count++;
 	}
 }
 
@@ -113,43 +92,86 @@ int	main(int argc, char *argv[], char *envp[])
 	count = 0;
 	while (count < vars.argc - 3)
 	{
-		pipe(cmd[count]->pipe_fd);
+		if (count != vars.argc - 4)
+		{
+			pipe(cmd[count]->pipe_fd);
+			ft_putstr_fd("open pipe ",STDERR_FILENO);
+			ft_putnbr_fd(cmd[count]->pipe_fd[0], STDERR_FILENO);
+			ft_putstr_fd(":",STDERR_FILENO);
+			ft_putnbr_fd(cmd[count]->pipe_fd[1], STDERR_FILENO);
+			ft_putstr_fd("\n",STDERR_FILENO);
+		}
 		fork_ret = fork();
 		if (fork_ret == -1)
 			exit(EXIT_FAILURE);
 		else if (fork_ret == 0)
 		{
-			// close(cmd[count]->pipe_fd[0]);
+			//STDIN
+			ft_putstr_fd("cmd",STDERR_FILENO);
+			ft_putnbr_fd(count,STDERR_FILENO);
+			ft_putstr_fd(" ",STDERR_FILENO);
 			if (count == 0)
+			{
+				ft_putnbr_fd(vars.file1_read_fd, STDERR_FILENO);
 				dup2(vars.file1_read_fd, STDIN_FILENO);
+			}
 			else
+			{
+				ft_putnbr_fd(cmd[count - 1]->pipe_fd[0], STDERR_FILENO);	
 				dup2(cmd[count - 1]->pipe_fd[0], STDIN_FILENO);
-				//dup2(cmd[count]->pipe_fd[0], cmd[count - 1]->pipe_fd[0]);
-			if (count != 1)
+			}
+			ft_putstr_fd("->",STDERR_FILENO);
+
+			//STDOUT
+			if (count != vars.argc - 4)
+			{
+				ft_putnbr_fd(cmd[count]->pipe_fd[1], STDERR_FILENO);
+				// 다음 프로세스로 넘어가게 파이프의 입력으로
 				dup2(cmd[count]->pipe_fd[1], STDOUT_FILENO);
+			}
 			else
+			{
+				ft_putnbr_fd(vars.file2_write_fd, STDERR_FILENO);
+				// 마지막 프로세스
 				dup2(vars.file2_write_fd, STDOUT_FILENO);
+			}
+
+			//자식 프로세스에서의 close
+			if (count != vars.argc - 4)
+			{
+				// count 번째 자식은 count번째 파이프의 읽는 쪽으로 출력을 넘김
+				// 따라서 쓰는 쪽의 출력은 필요없음!
+				close(cmd[count]->pipe_fd[0]);
+			}
+			ft_putstr_fd("\n",STDERR_FILENO);
 			warp_cmd_execve(cmd[count]);
 		}
 		else
 		{
-			// if (count != 0)
-			// {
-			// 	close(cmd[count]->pipe_fd[1]);
-			// 	dup2(cmd[count]->pipe_fd[0], STDIN_FILENO);
-			// 	if (count == vars.argc - 4)
-			// 		dup2(cmd[count]->pipe_fd[1], vars.file2_write_fd);
-			// }
+			//main 프로세스
+
+			//일단 pid 저장시켜주고
 			cmd[count]->pid = fork_ret;
+
+			// main 프로세스는 count 번째 프로세스가 만들어졌을때
+			// count + 1 프로세스가 필요한 fd 이외에 모두 닫은다음
+			// count + 1 프로세스에게 넘겨줘야함!
+
+			if (count != 0)
+			{
+				close(cmd[count - 1]->pipe_fd[0]);
+			}
+
+			if (count != vars.argc - 4)
+			{
+				close(cmd[count]->pipe_fd[1]);
+			}
 			// waitpid(fork_ret, NULL, 0);
 		}
 		count++;
 	}
-	int status;
 
-	if(wait(&status) == -1)
-		ft_putnbr_fd(42, STDERR_FILENO);
 	// if(wait(&status) == -1)
 	// 	ft_putnbr_fd(42, STDERR_FILENO);
-	// wait_processes(cmd);
+	wait_processes(cmd);
 }

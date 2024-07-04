@@ -1,6 +1,7 @@
 *.d
 *.o
 *.out
+/pipexMedic
 .DS_Store
 LAST_ALL
 libft/*

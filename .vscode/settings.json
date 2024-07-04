@@ -3,6 +3,8 @@
 		"unistd.h": "c",
 		"stdarg.h": "c",
 		"__functional_03": "c",
-		"functional": "c"
+		"functional": "c",
+		"pipex.h": "c",
+		"errno.h": "c"
 	}
 }
