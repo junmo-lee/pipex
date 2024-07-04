@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:25:26 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/04 18:39:51 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/04 22:50:26 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@ int	warp_cmd_execve(t_cmd *cmd)
 
 void	child(t_vars *vars, t_cmd *cmd[], int count)
 {
-	if (check_cmd_access(vars, cmd[count]))
-	{
-		perror("command not found");
-		exit(127);
-	}
+	check_cmd_access(vars, cmd[count]);
 	if (count == 0)
-		dup2(vars->file1_read_fd, STDIN_FILENO);
+	{
+		if (dup2(vars->file1_read_fd, STDIN_FILENO) == -1)
+			exit(1);
+	}
 	else
 		dup2(cmd[count - 1]->pipe_fd[0], STDIN_FILENO);
 	if (count != vars->argc - 4)

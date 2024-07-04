@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:41:45 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/04 18:11:40 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/04 22:46:37 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ int	main(int argc, char *argv[], char *envp[])
 	init(&vars, argc, argv, envp);
 	if (argc != 5)
 		return (EXIT_FAILURE);
-	vars.file1_read_fd = open(argv[1], O_RDONLY);
-	vars.file2_write_fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (vars.file1_read_fd == -1 || vars.file2_write_fd == -1)
-		return (EXIT_FAILURE);
+	read_file(&(vars.file1_read_fd), argv[1]);
+	write_file(&(vars.file2_write_fd), argv[4]);
 	do_pipex(&vars, cmd);
+	close(vars.file1_read_fd);
+	close(vars.file2_write_fd);
 	return (wait_processes(&vars, cmd));
 }

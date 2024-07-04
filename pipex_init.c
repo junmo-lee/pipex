@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:22:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/04 18:48:34 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/04 22:41:44 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	parse_name_args(t_cmd *cmd, char *cmd_argv)
 	return (0);
 }
 
-int	check_cmd_access(t_vars *vars, t_cmd *cmd)
+void	check_cmd_access(t_vars *vars, t_cmd *cmd)
 {
 	char	*temp;
 	int		i;
@@ -83,15 +83,22 @@ int	check_cmd_access(t_vars *vars, t_cmd *cmd)
 		temp = path_join(vars->path[i], cmd->cmd_name);
 		if (temp == NULL)
 			exit(EXIT_FAILURE);
-		if (access(temp, X_OK) == 0)
+		if (access(temp, F_OK) == 0)
 		{
-			cmd->cmd_path = temp;
-			return (0);
+			cmd->cant_execute = 1;
+			if (access(temp, X_OK) == 0)
+			{
+				cmd->cmd_path = temp;
+				return ;
+			}
+			free(temp);
 		}
-		free(temp);
 		i++;
 	}
-	return (1);
+	if (cmd->cant_execute)
+		write_stderr_exit("permission denied: ", cmd->cmd_name, 126);
+	else
+		write_stderr_exit("command not found: ", cmd->cmd_name, 127);
 }
 
 t_cmd	*cmd_init(t_vars *vars, char *cmd_argv)

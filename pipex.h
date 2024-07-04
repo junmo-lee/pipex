@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 18:24:23 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/04 18:34:46 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/04 22:40:54 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_cmd
 	char	**envp;
 	char	*cmd_name;
 	int		pipe_fd[2];
+	int		cant_execute;
 	int		status;
 }	t_cmd;
 
@@ -47,6 +48,12 @@ int		init(t_vars *vars, int argc, char *argv[], char *envp[]);
 t_cmd	*cmd_init(t_vars *vars, char *cmd_argv);
 int		warp_cmd_execve(t_cmd *cmd);
 void	do_pipex(t_vars *vars, t_cmd *cmd[]);
-int		check_cmd_access(t_vars *vars, t_cmd *cmd);
+void	check_cmd_access(t_vars *vars, t_cmd *cmd);
+
+int		write_stderr(char *error_msg, char *name);
+int		write_stderr_exit(char *error_msg, char *name, int errorcode);
+
+int		read_file(int *fd, char *file_path);
+int		write_file(int *fd, char *file_path);
 
 #endif
