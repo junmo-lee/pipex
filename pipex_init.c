@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:22:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/04 22:41:44 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/05 17:04:29 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	import_path(t_vars *vars)
 		{
 			vars->path = ft_split(vars->envp[i], ':');
 			if (vars->path == NULL)
-				return (1);
+				exit(EXIT_FAILURE);
 			temp = vars->path[0];
 			vars->path[0] = ft_substr(temp, 5, ft_strlen(temp));
 			ft_memset(temp, 0, ft_strlen(temp));
@@ -49,26 +49,27 @@ int	init(t_vars *vars, int argc, char *argv[], char *envp[])
 int	parse_name_args(t_cmd *cmd, char *cmd_argv)
 {
 	char	**temp;
-	size_t	argc;
+	//size_t	argc;
 
 	temp = ft_split(cmd_argv, ' ');
 	if (temp == NULL)
 		exit(EXIT_FAILURE);
 	cmd->cmd_name = *(temp);
-	argc = 0;
-	while (temp[argc] != NULL)
-		argc++;
-	cmd->args = malloc(sizeof(char *) * (argc + 1));
-	if (cmd->args == NULL)
-		exit(EXIT_FAILURE);
-	argc = 0;
-	while (temp[argc] != NULL)
-	{
-		cmd->args[argc] = temp[argc];
-		argc++;
-	}
-	cmd->args[argc] = NULL;
-	free(temp);
+	cmd->args = temp;
+	// argc = 0;
+	// while (temp[argc] != NULL)
+	// 	argc++;
+	// cmd->args = malloc(sizeof(char *) * (argc + 1));
+	// if (cmd->args == NULL)
+	// 	exit(EXIT_FAILURE);
+	// argc = 0;
+	// while (temp[argc] != NULL)
+	// {
+	// 	cmd->args[argc] = temp[argc];
+	// 	argc++;
+	// }
+	// cmd->args[argc] = NULL;
+	// free(temp);
 	return (0);
 }
 
@@ -91,8 +92,8 @@ void	check_cmd_access(t_vars *vars, t_cmd *cmd)
 				cmd->cmd_path = temp;
 				return ;
 			}
-			free(temp);
 		}
+		free(temp);
 		i++;
 	}
 	if (cmd->cant_execute)

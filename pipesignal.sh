@@ -1,7 +1,10 @@
 #!/bin/bash
 
 # Example commands
-< /dev/urandom cat | head -n 5 > temp_out 
+# < /dev/urandom cat | head -n 5 > temp_out 
+
+< input_tc grep "Now" | wc -w > not-existing/test.txt
+
 statuses=("${PIPESTATUS[@]}")
 
 for i in "${!statuses[@]}"; do

@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 21:44:59 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/01 22:27:47 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/05 19:08:14 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdarg.h>
-# include "./libft/libft.h"
+# include "../libft/libft.h"
 
 int		ft_printf(const char *format, ...);
 int		formatting(char type, va_list *ap);
