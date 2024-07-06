@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:25:26 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/05 19:44:23 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/06 22:02:48 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	child(t_vars *vars, t_cmd *cmd[], int count)
 	check_cmd_access(vars, cmd[count]);
 	if (count == 0)
 	{
-		// if (dup2(vars->file1_read_fd, STDIN_FILENO) == -1)
-		// 	exit(1);
+		if (dup2(vars->file1_read_fd, STDIN_FILENO) == -1)
+			exit(EXIT_FAILURE);
 		dup2(vars->file1_read_fd, STDIN_FILENO);
 	}
 	else
@@ -32,7 +32,10 @@ void	child(t_vars *vars, t_cmd *cmd[], int count)
 	if (count != vars->argc - 4)
 		dup2(cmd[count]->pipe_fd[1], STDOUT_FILENO);
 	else
-		dup2(vars->file2_write_fd, STDOUT_FILENO);
+	{
+		if (dup2(vars->file2_write_fd, STDOUT_FILENO) == -1)
+			exit(EXIT_FAILURE);
+	}
 	if (count != vars->argc - 4)
 		close(cmd[count]->pipe_fd[0]);
 	warp_cmd_execve(cmd[count]);
@@ -76,9 +79,9 @@ void	do_pipex(t_vars *vars, t_cmd *cmd[])
 	count = 0;
 	while (count < vars->argc - 3)
 	{
-		// count 0 : cmd1 : argv[3]
-		// count 1 : cmd0 : argv[2]
-		cmd[count] = cmd_init(vars, vars->argv[vars->argc - count - 2]);
+		// count 0 : cmd0 : argv[2]
+		// count 1 : cmd1 : argv[3]
+		cmd[count] = cmd_init(vars, vars->argv[count + 2]);
 		if (count != vars->argc - 4)
 			if (pipe(cmd[count]->pipe_fd) == -1)
 				exit(EXIT_FAILURE);

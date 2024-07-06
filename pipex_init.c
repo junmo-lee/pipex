@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:22:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/05 17:04:29 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/06 22:05:20 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,27 +49,13 @@ int	init(t_vars *vars, int argc, char *argv[], char *envp[])
 int	parse_name_args(t_cmd *cmd, char *cmd_argv)
 {
 	char	**temp;
-	//size_t	argc;
 
 	temp = ft_split(cmd_argv, ' ');
 	if (temp == NULL)
 		exit(EXIT_FAILURE);
-	cmd->cmd_name = *(temp);
+	cmd->cmd_name = ft_strdup(*temp);
 	cmd->args = temp;
-	// argc = 0;
-	// while (temp[argc] != NULL)
-	// 	argc++;
-	// cmd->args = malloc(sizeof(char *) * (argc + 1));
-	// if (cmd->args == NULL)
-	// 	exit(EXIT_FAILURE);
-	// argc = 0;
-	// while (temp[argc] != NULL)
-	// {
-	// 	cmd->args[argc] = temp[argc];
-	// 	argc++;
-	// }
-	// cmd->args[argc] = NULL;
-	// free(temp);
+	//system("leaks debug.out");
 	return (0);
 }
 
@@ -89,6 +75,8 @@ void	check_cmd_access(t_vars *vars, t_cmd *cmd)
 			cmd->cant_execute = 1;
 			if (access(temp, X_OK) == 0)
 			{
+			// ft_putstr_fd(temp, STDERR_FILENO);
+			// ft_putchar_fd('\n', STDERR_FILENO);
 				cmd->cmd_path = temp;
 				return ;
 			}

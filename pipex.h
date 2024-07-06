@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 18:24:23 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/05 19:05:54 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/06 19:29:57 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 typedef struct s_cmd
 {
 	pid_t	pid;
-	char	*cmd_path; // 필요함
-	char	**args; // 필요함
+	char	*cmd_path; // 필요함, 실행파일이 존재해야지 할당됨
+	char	**args; // 필요함, 인자에서 받아옴
 	char	**envp; // 필요x
-	char	*cmd_name; // 필요
+	char	*cmd_name; // 필요, 인자에서 받아옴
 	int		pipe_fd[2];
 	int		cant_execute;
 	int		status;
@@ -41,6 +41,7 @@ typedef struct s_vars
 	char			**path; // 내가 malloc한거, free 해줘야함
 	int				file1_read_fd;
 	int				file2_write_fd;
+	int				cmd_count;
 }	t_vars;
 
 char	*path_join(char const *s1, char const *s2);
