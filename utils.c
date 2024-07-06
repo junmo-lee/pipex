@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:37:45 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/06 21:56:57 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/06 22:18:48 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	free_cmds(t_cmd *cmd)
 	ft_memset(cmd->cmd_name, 0, ft_strlen(cmd->cmd_name));
 	free(cmd->cmd_name);
 	free_strs(cmd->args);
+	ft_memset(cmd->args, 0, sizeof(cmd->args));
+	free(cmd->args);
 	temp = cmd->cmd_path;
 	ft_memset(cmd, 0, sizeof(t_cmd));
 	free(cmd);

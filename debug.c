@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:41:45 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/06 22:05:05 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/06 22:10:38 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	wait_processes(t_vars *var, t_cmd *cmd[])
 		free_cmds(cmd[count]);
 		count++;
 	}
+	system("leaks debug.out");
 	return (last_status);
 }
 
@@ -46,7 +47,6 @@ int	main(int argc, char *argv[], char *envp[])
 	t_vars	vars;
 	t_cmd	*cmd[100];
 
-	atexit(f);
 	init(&vars, argc, argv, envp);
 	if (argc != 5)
 	{
