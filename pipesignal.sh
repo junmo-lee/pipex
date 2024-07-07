@@ -4,6 +4,7 @@
 # < /dev/urandom cat | head -n 5 > temp_out 
 
 < input_tc grep "Now" | wc -w > not-existing/test.txt
+#./pipex input_tc "grep Now" "wc -w" "not-existing/test.txt"
 
 statuses=("${PIPESTATUS[@]}")
 

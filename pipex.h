@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 18:24:23 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/06 19:29:57 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/07 16:22:35 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-# include <stdio.h>
+# include <limits.h>
 
 typedef struct s_cmd
 {
 	pid_t	pid;
-	char	*cmd_path; // 필요함, 실행파일이 존재해야지 할당됨
-	char	**args; // 필요함, 인자에서 받아옴
-	char	**envp; // 필요x
-	char	*cmd_name; // 필요, 인자에서 받아옴
+	char	*cmd_path;
+	char	*cmd_name;
+	char	**args;
+	char	**envp;
 	int		pipe_fd[2];
 	int		cant_execute;
 	int		status;
@@ -38,25 +38,25 @@ typedef struct s_vars
 	int				argc;
 	char			**argv;
 	char			**envp;
-	char			**path; // 내가 malloc한거, free 해줘야함
+	char			**path;
 	int				file1_read_fd;
 	int				file2_write_fd;
 	int				cmd_count;
 }	t_vars;
 
 char	*path_join(char const *s1, char const *s2);
-int		init(t_vars *vars, int argc, char *argv[], char *envp[]);
+void	init(t_vars *vars, int argc, char *argv[], char *envp[]);
 t_cmd	*cmd_init(t_vars *vars, char *cmd_argv);
-int		warp_cmd_execve(t_cmd *cmd);
+
 void	do_pipex(t_vars *vars, t_cmd *cmd[]);
 void	check_cmd_access(t_vars *vars, t_cmd *cmd);
 
 int		write_stderr(char *error_msg, char *name);
-int		write_stderr_exit(char *error_msg, char *name, int errorcode);
+void	write_stderr_exit(char *error_msg, char *name, int errorcode);
 
 int		read_file(int *fd, char *file_path);
 int		write_file(int *fd, char *file_path);
-void	free_strs(char *strs[]);
+int		free_strs(char *strs[], int exit_code);
 void	free_cmds(t_cmd *cmd);
 
 #endif

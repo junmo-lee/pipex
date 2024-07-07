@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:22:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/06 22:05:20 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/07 16:15:43 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,33 @@ int	import_path(t_vars *vars)
 	return (1);
 }
 
-int	init(t_vars *vars, int argc, char *argv[], char *envp[])
+void	init(t_vars *vars, int argc, char *argv[], char *envp[])
 {
+	char	*temp;
+	int		i;
+
 	ft_memset(vars, 0, sizeof(vars));
 	vars->argc = argc;
 	vars->argv = argv;
 	vars->envp = envp;
-	import_path(vars);
-	return (0);
+	i = -1;
+	while (vars->envp[++i] != NULL)
+	{
+		if (ft_strncmp(vars->envp[i], "PATH=", 5) == 0)
+		{
+			vars->path = ft_split(vars->envp[i], ':');
+			if (vars->path == NULL)
+				exit(EXIT_FAILURE);
+			temp = vars->path[0];
+			if (temp == NULL)
+				exit(EXIT_FAILURE);
+			vars->path[0] = ft_substr(temp, 5, ft_strlen(temp));
+			ft_memset(temp, 0, ft_strlen(temp));
+			free(temp);
+			return ;
+		}
+	}
+	exit(EXIT_FAILURE);
 }
 
 int	parse_name_args(t_cmd *cmd, char *cmd_argv)
@@ -55,7 +74,6 @@ int	parse_name_args(t_cmd *cmd, char *cmd_argv)
 		exit(EXIT_FAILURE);
 	cmd->cmd_name = ft_strdup(*temp);
 	cmd->args = temp;
-	//system("leaks debug.out");
 	return (0);
 }
 
@@ -75,8 +93,6 @@ void	check_cmd_access(t_vars *vars, t_cmd *cmd)
 			cmd->cant_execute = 1;
 			if (access(temp, X_OK) == 0)
 			{
-			// ft_putstr_fd(temp, STDERR_FILENO);
-			// ft_putchar_fd('\n', STDERR_FILENO);
 				cmd->cmd_path = temp;
 				return ;
 			}

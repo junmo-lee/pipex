@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:53:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/05 18:53:06 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/07 16:22:55 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,11 @@ int	wait_processes(t_vars *var, t_cmd *cmd[])
 	while (count < var->argc - 3)
 	{
 		if (waitpid(cmd[count]->pid, &(cmd[count]->status), 0) == -1)
-			exit(EXIT_FAILURE);
+			return (EXIT_FAILURE);
 		count++;
 	}
 	return (WEXITSTATUS(cmd[var->argc - 4]->status));
 }
-
 
 int	main(int argc, char *argv[], char *envp[])
 {
