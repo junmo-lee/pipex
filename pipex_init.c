@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:22:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/07 16:15:43 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/08 20:10:58 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	parse_name_args(t_cmd *cmd, char *cmd_argv)
 {
 	char	**temp;
 
-	temp = ft_split(cmd_argv, ' ');
+	temp = pipex_split(cmd_argv, ' ');
 	if (temp == NULL)
 		exit(EXIT_FAILURE);
 	cmd->cmd_name = ft_strdup(*temp);

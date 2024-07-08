@@ -5,6 +5,8 @@
 		"__functional_03": "c",
 		"functional": "c",
 		"pipex.h": "c",
-		"errno.h": "c"
+		"errno.h": "c",
+		"sstream": "c",
+		"libft.h": "c"
 	}
 }

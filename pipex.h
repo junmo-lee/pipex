@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 18:24:23 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/07 16:22:35 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/08 19:06:25 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	check_cmd_access(t_vars *vars, t_cmd *cmd);
 
 int		write_stderr(char *error_msg, char *name);
 void	write_stderr_exit(char *error_msg, char *name, int errorcode);
+char	**pipex_split(char *str, char c);
 
 int		read_file(int *fd, char *file_path);
 int		write_file(int *fd, char *file_path);

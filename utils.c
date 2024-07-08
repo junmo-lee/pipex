@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:37:45 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/07 15:54:44 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/08 20:11:15 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,33 @@ void	free_cmds(t_cmd *cmd)
 		return ;
 	ft_memset(temp, 0, ft_strlen(temp));
 	free(temp);
+}
+
+char	**pipex_split(char *str, char c)
+{
+	int		i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\'')
+		{
+			if (i != 0 && str[i - 1] == '\\')
+			{
+				str[i - 1] = 'X';
+				str[i++] = '\'';
+			}
+			else
+				str[i++] = 'X';
+			while (str[i] != '\0' && str[i] != '\'')
+				i++;
+			if (str[i - 1] == '\\')
+				str[i - 1] = '\'';
+			str[i++] = 'X';
+		}
+		if (str[i] == c)
+			str[i] = 'X';
+		i++;
+	}
+	return (ft_split(str, 'X'));
 }
