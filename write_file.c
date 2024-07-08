@@ -6,23 +6,49 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:13:32 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/04 22:45:10 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/08 22:48:57 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	write_file(int *fd, char *file_path)
+void	write_here_doc(t_vars *vars)
 {
-	*fd = open(file_path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	char	*input;
+	int		limiter;
+
+	limiter = 1;
+	//unlink(".here_doc");
+	write_file(&(vars->here_doc_fd), ".here_doc", O_WRONLY | O_CREAT | O_TRUNC);
+	while (limiter)
+	{
+		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
+		input = get_next_line(STDIN_FILENO);
+		if (input == NULL)
+			exit(EXIT_FAILURE);
+		if (ft_strncmp(vars->argv[2], input, ft_strlen(vars->argv[2])) == 0 \
+			&& ft_strlen(input) == ft_strlen(vars->argv[2]) + 1)
+		{
+			limiter = 0;
+			close(vars->here_doc_fd);
+		}
+		else
+			write(vars->here_doc_fd, input, ft_strlen(input));
+		ft_memset(input, 0, ft_strlen(input));
+		free(input);
+	}
+}
+
+void	write_file(int *fd, char *file_path, int option)
+{
+	*fd = open(file_path, option, 0644);
 	if (access(file_path, F_OK) == 0)
 	{
 		if (access(file_path, W_OK) == 0)
-			return (0);
+			return ;
 		else
 			write_stderr("Permission denied: ", file_path);
 	}
 	else
 		write_stderr("No such file or directory: ", file_path);
-	return (1);
 }

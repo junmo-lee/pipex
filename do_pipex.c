@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:25:26 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/07 16:22:50 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/08 22:50:40 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void	child(t_vars *vars, t_cmd *cmd[], int count)
 	}
 	else
 		dup2(cmd[count - 1]->pipe_fd[0], STDIN_FILENO);
-	if (count != vars->argc - 4)
+	if (count != vars->cmd_len - 1)
 		dup2(cmd[count]->pipe_fd[1], STDOUT_FILENO);
 	else
 	{
 		if (dup2(vars->file2_write_fd, STDOUT_FILENO) == -1)
 			exit(EXIT_FAILURE);
 	}
-	if (count != vars->argc - 4)
+	if (count != vars->cmd_len - 1)
 		close(cmd[count]->pipe_fd[0]);
 	execve(cmd[count]->cmd_path, cmd[count]->args, cmd[count]->envp);
 }
@@ -41,10 +41,10 @@ void	do_pipex(t_vars *vars, t_cmd *cmd[])
 	pid_t	fork_ret;
 
 	count = 0;
-	while (count < vars->argc - 3)
+	while (count < vars->cmd_len)
 	{
-		cmd[count] = cmd_init(vars, vars->argv[count + 2]);
-		if (count != vars->argc - 4)
+		cmd[count] = cmd_init(vars, vars->argv[count + 2 + vars->is_here_doc]);
+		if (count != vars->cmd_len - 1)
 			if (pipe(cmd[count]->pipe_fd) == -1)
 				exit(EXIT_FAILURE);
 		fork_ret = fork();
@@ -57,7 +57,7 @@ void	do_pipex(t_vars *vars, t_cmd *cmd[])
 			cmd[count]->pid = fork_ret;
 			if (count != 0)
 				close(cmd[count - 1]->pipe_fd[0]);
-			if (count != vars->argc - 4)
+			if (count != vars->cmd_len - 1)
 				close(cmd[count]->pipe_fd[1]);
 		}
 		count++;

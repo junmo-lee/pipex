@@ -7,7 +7,7 @@ DEBUG_NAME = debug.out
 DEBUG_NAME_B = debug_bonus.out
 
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
 CDEF	= -MMD -MP
 
 LIBFT = ./libft/libft.a
@@ -23,15 +23,17 @@ SRCS	= main.c \
 			ft_printf/ft_printf.c ft_printf/ft_print_chars.c ft_printf/ft_print_dec.c \
 			ft_printf/ft_print_hex.c ft_printf/ft_print_pointer.c ft_printf/ft_print_utoa.c \
 			utils.c read_file.c write_file.c \
-			path_join.c pipex_init.c do_pipex.c 
+			path_join.c pipex_init.c do_pipex.c \
+			get_here_doc.c 
 			
 
-SRCS_B	= main_bonus.c \
+SRCS_B	= main.c \
 			gnl/get_next_line.c gnl/get_next_line_utils.c \
 			ft_printf/ft_printf.c ft_printf/ft_print_chars.c ft_printf/ft_print_dec.c \
 			ft_printf/ft_print_hex.c ft_printf/ft_print_pointer.c ft_printf/ft_print_utoa.c \
 			utils.c read_file.c write_file.c \
-			path_join.c pipex_init.c do_pipex.c 
+			path_join.c pipex_init.c do_pipex.c \
+			get_here_doc.c 
 
 OBJS	= $(SRCS:.c=.o)
 OBJS_B	= $(SRCS_B:.c=.o)
