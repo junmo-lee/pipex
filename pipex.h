@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 18:24:23 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/10 16:26:10 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/10 17:12:52 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "libft/libft.h"
 # include "gnl/get_next_line.h"
-# include "ft_printf/ft_printf.h"
+
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/wait.h>
