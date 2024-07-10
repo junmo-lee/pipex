@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:25:26 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/08 22:50:40 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/10 16:52:59 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,35 @@ void	child(t_vars *vars, t_cmd *cmd[], int count)
 }
 
 void	do_pipex(t_vars *vars, t_cmd *cmd[])
+{
+	int		count;
+	pid_t	fork_ret;
+
+	count = 0;
+	while (count < vars->cmd_len)
+	{
+		cmd[count] = cmd_init(vars, vars->argv[count + 2]);
+		if (count != vars->cmd_len - 1)
+			if (pipe(cmd[count]->pipe_fd) == -1)
+				exit(EXIT_FAILURE);
+		fork_ret = fork();
+		if (fork_ret == -1)
+			exit(EXIT_FAILURE);
+		else if (fork_ret == 0)
+			child(vars, cmd, count);
+		else
+		{
+			cmd[count]->pid = fork_ret;
+			if (count != 0)
+				close(cmd[count - 1]->pipe_fd[0]);
+			if (count != vars->cmd_len - 1)
+				close(cmd[count]->pipe_fd[1]);
+		}
+		count++;
+	}
+}
+
+void	do_pipex_bouns(t_vars *vars, t_cmd *cmd[])
 {
 	int		count;
 	pid_t	fork_ret;

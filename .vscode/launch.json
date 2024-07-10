@@ -19,7 +19,8 @@
 			"request": "launch",
 			"name": "Debug Mandatory",
 			"program": "${workspaceFolder}/debug.out",
-			"args": ["input", "cat", "echo -n hello world", "outfile"],
+			"args": ["not-existing/deepthought.txt", "grep Now", "wc -w", "outs/test1.txt"],
+			//"args": ["input", "cat", "echo -n hello world", "outfile"],
 			//"args": ["/dev/urandom", "cat", "head -1", "output.txt"],
 			//"args": ["/dev/urandom", "none_cmd", "head -1", "output.txt"],
 			//"args" : ["/Users/junmlee/Desktop/pipex-tester/assets/deepthought.txt", "grep Now", "head -2", "output"],
@@ -27,6 +28,24 @@
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "Build : Debug Mandatory",
 			"terminal": "console"
+		},
+		{
+			"type": "lldb",
+			"request": "launch",
+			"name": "pipex test",
+			"program": "${workspaceFolder}/pipex",
+			"args": ["not-existing/deepthought.txt", "grep Now", "wc -w", "outs/test1.txt"],
+			"cwd": "${workspaceFolder}",
+			"terminal": "console"
+		},
+		{
+			"type": "lldb",
+			"request": "launch",
+			"name": "pipex bouns test",
+			"program": "${workspaceFolder}/pipex_bouns",
+			"args": ["here_doc", "hi", "cat", "cat", "stdin"],
+			"cwd": "${workspaceFolder}",
+			"terminal": "integrated"
 		}
 	]
 }

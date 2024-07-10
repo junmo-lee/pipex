@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:13:32 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/08 22:48:57 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/10 17:10:59 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	write_here_doc(t_vars *vars)
 	int		limiter;
 
 	limiter = 1;
-	//unlink(".here_doc");
+	unlink(".here_doc");
 	write_file(&(vars->here_doc_fd), ".here_doc", O_WRONLY | O_CREAT | O_TRUNC);
 	while (limiter)
 	{

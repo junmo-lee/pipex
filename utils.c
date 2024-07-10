@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:37:45 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/08 20:11:15 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/10 17:07:39 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,20 +75,20 @@ char	**pipex_split(char *str, char c)
 		{
 			if (i != 0 && str[i - 1] == '\\')
 			{
-				str[i - 1] = 'X';
+				str[i - 1] = 1;
 				str[i++] = '\'';
 			}
 			else
-				str[i++] = 'X';
+				str[i++] = 1;
 			while (str[i] != '\0' && str[i] != '\'')
 				i++;
 			if (str[i - 1] == '\\')
 				str[i - 1] = '\'';
-			str[i++] = 'X';
+			str[i++] = 1;
 		}
 		if (str[i] == c)
-			str[i] = 'X';
+			str[i] = 1;
 		i++;
 	}
-	return (ft_split(str, 'X'));
+	return (ft_split(str, 1));
 }

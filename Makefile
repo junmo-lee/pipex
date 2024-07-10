@@ -23,17 +23,15 @@ SRCS	= main.c \
 			ft_printf/ft_printf.c ft_printf/ft_print_chars.c ft_printf/ft_print_dec.c \
 			ft_printf/ft_print_hex.c ft_printf/ft_print_pointer.c ft_printf/ft_print_utoa.c \
 			utils.c read_file.c write_file.c \
-			path_join.c pipex_init.c do_pipex.c \
-			get_here_doc.c 
+			path_join.c pipex_init.c do_pipex.c 
 			
 
-SRCS_B	= main.c \
+SRCS_B	= main_bonus.c \
 			gnl/get_next_line.c gnl/get_next_line_utils.c \
 			ft_printf/ft_printf.c ft_printf/ft_print_chars.c ft_printf/ft_print_dec.c \
 			ft_printf/ft_print_hex.c ft_printf/ft_print_pointer.c ft_printf/ft_print_utoa.c \
 			utils.c read_file.c write_file.c \
-			path_join.c pipex_init.c do_pipex.c \
-			get_here_doc.c 
+			path_join.c pipex_init.c do_pipex.c 
 
 OBJS	= $(SRCS:.c=.o)
 OBJS_B	= $(SRCS_B:.c=.o)
@@ -50,8 +48,8 @@ ifdef IGNORE_ERROR
 endif
 
 ifdef DEBUG_FLAG
-	CFLAGS += -g3  
-#-fsanitize=address leaks 랑 같이못씀
+	CFLAGS += -g3 -fsanitize=address 
+#leaks 랑 같이못씀
 endif
 
 $(LIBFT) :

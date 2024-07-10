@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:53:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/08 22:59:28 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/10 17:10:39 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ int	wait_processes(t_vars *var, t_cmd *cmd[])
 		free_cmds(cmd[count]);
 		count++;
 	}
+	close(var->file1_read_fd);
+	close(var->file2_write_fd);
+	if (var->is_here_doc == 1)
+		unlink(".here_doc");
+	free_strs(var->path, EXIT_SUCCESS);
 	return (last_status);
 }
 
@@ -42,12 +47,13 @@ void	bonus_get_fds(t_vars *vars)
 	{
 		vars->is_here_doc = 1;
 		write_here_doc(vars);
-		read_file(&(vars->file1_read_fd), ".here_doc", O_RDONLY); //.here_doc 확인
+		read_file(&(vars->file1_read_fd), ".here_doc", O_RDONLY);
 		write_file(&(vars->file2_write_fd), vars->argv[vars->argc - 1], \
 			O_WRONLY | O_CREAT | O_APPEND);
 	}
 	else
 	{
+		vars->is_here_doc = 0;
 		read_file(&(vars->file1_read_fd), vars->argv[1], O_RDONLY);
 		write_file(&(vars->file2_write_fd), vars->argv[vars->argc - 1], \
 			O_WRONLY | O_CREAT | O_TRUNC);
@@ -67,11 +73,6 @@ int	main(int argc, char *argv[], char *envp[])
 		vars.cmd_len = argc - 4;
 	else
 		vars.cmd_len = argc - 3;
-	do_pipex(&vars, cmd);
-	close(vars.file1_read_fd);
-	close(vars.file2_write_fd);
-	if (vars.is_here_doc == 1)
-		unlink(".here_doc");
-	free_strs(vars.path, EXIT_SUCCESS);
+	do_pipex_bouns(&vars, cmd);
 	return (wait_processes(&vars, cmd));
 }

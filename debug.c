@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:41:45 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/08 22:44:37 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/10 16:17:45 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	bonus_get_fds(t_vars *vars)
 	}
 	else
 	{
+		vars->is_here_doc = 0;
 		read_file(&(vars->file1_read_fd), vars->argv[1], O_RDONLY);
 		write_file(&(vars->file2_write_fd), vars->argv[vars->argc - 1], \
 			O_WRONLY | O_CREAT | O_TRUNC);
