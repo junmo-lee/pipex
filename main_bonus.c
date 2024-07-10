@@ -6,11 +6,11 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:53:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/10 17:10:39 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/10 18:08:11 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 int	get_exit_status(int status)
 {
@@ -73,6 +73,6 @@ int	main(int argc, char *argv[], char *envp[])
 		vars.cmd_len = argc - 4;
 	else
 		vars.cmd_len = argc - 3;
-	do_pipex_bouns(&vars, cmd);
+	do_pipex_bonus(&vars, cmd);
 	return (wait_processes(&vars, cmd));
 }
