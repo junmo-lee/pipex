@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:57:08 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/10 18:08:38 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/10 18:51:41 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	child(t_vars *vars, t_cmd *cmd[], int count)
 {
-	check_cmd_access(vars, cmd[count]);
 	if (count == 0)
 	{
 		if (dup2(vars->file1_read_fd, STDIN_FILENO) == -1)
@@ -32,6 +31,10 @@ void	child(t_vars *vars, t_cmd *cmd[], int count)
 	}
 	if (count != vars->cmd_len - 1)
 		close(cmd[count]->pipe_fd[0]);
+	if (access(cmd[count]->cmd_name, X_OK) == 0)
+		cmd[count]->cmd_path = cmd[count]->cmd_name;
+	else
+		check_cmd_access(vars, cmd[count]);
 	execve(cmd[count]->cmd_path, cmd[count]->args, cmd[count]->envp);
 }
 
