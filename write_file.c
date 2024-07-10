@@ -6,38 +6,11 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:13:32 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/10 17:10:59 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/10 18:10:11 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	write_here_doc(t_vars *vars)
-{
-	char	*input;
-	int		limiter;
-
-	limiter = 1;
-	unlink(".here_doc");
-	write_file(&(vars->here_doc_fd), ".here_doc", O_WRONLY | O_CREAT | O_TRUNC);
-	while (limiter)
-	{
-		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
-		input = get_next_line(STDIN_FILENO);
-		if (input == NULL)
-			exit(EXIT_FAILURE);
-		if (ft_strncmp(vars->argv[2], input, ft_strlen(vars->argv[2])) == 0 \
-			&& ft_strlen(input) == ft_strlen(vars->argv[2]) + 1)
-		{
-			limiter = 0;
-			close(vars->here_doc_fd);
-		}
-		else
-			write(vars->here_doc_fd, input, ft_strlen(input));
-		ft_memset(input, 0, ft_strlen(input));
-		free(input);
-	}
-}
 
 void	write_file(int *fd, char *file_path, int option)
 {
