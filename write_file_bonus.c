@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:59:53 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/10 17:59:57 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/10 19:24:29 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,13 @@ void	write_here_doc(t_vars *vars)
 	int		limiter;
 
 	limiter = 1;
-	unlink(".here_doc");
-	write_file(&(vars->here_doc_fd), ".here_doc", O_WRONLY | O_CREAT | O_TRUNC);
-	while (limiter)
+	while (limiter != 0)
 	{
-		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
+		if (limiter++ == 1)
+			ft_putstr_fd("heredoc> ", STDOUT_FILENO);
 		input = get_next_line(STDIN_FILENO);
 		if (input == NULL)
-			exit(EXIT_FAILURE);
+			continue ;
 		if (ft_strncmp(vars->argv[2], input, ft_strlen(vars->argv[2])) == 0 \
 			&& ft_strlen(input) == ft_strlen(vars->argv[2]) + 1)
 		{
@@ -33,7 +32,10 @@ void	write_here_doc(t_vars *vars)
 			close(vars->here_doc_fd);
 		}
 		else
+		{
 			write(vars->here_doc_fd, input, ft_strlen(input));
+			limiter = 1;
+		}
 		ft_memset(input, 0, ft_strlen(input));
 		free(input);
 	}

@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:53:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/10 18:08:11 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/10 19:19:04 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ void	bonus_get_fds(t_vars *vars)
 	if (ft_strncmp(vars->argv[1], "here_doc", ft_strlen(vars->argv[1])) == 0)
 	{
 		vars->is_here_doc = 1;
+		unlink(".here_doc");
+		write_file(&(vars->here_doc_fd), ".here_doc", \
+			O_WRONLY | O_CREAT | O_TRUNC);
 		write_here_doc(vars);
 		read_file(&(vars->file1_read_fd), ".here_doc", O_RDONLY);
 		write_file(&(vars->file2_write_fd), vars->argv[vars->argc - 1], \
