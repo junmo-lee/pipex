@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:37:45 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/10 17:07:39 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:37:22 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,25 +66,17 @@ void	free_cmds(t_cmd *cmd)
 
 char	**pipex_split(char *str, char c)
 {
-	int		i;
+	size_t		i;
 
 	i = 0;
 	while (str[i] != '\0')
 	{
 		if (str[i] == '\'')
 		{
-			if (i != 0 && str[i - 1] == '\\')
-			{
-				str[i - 1] = 1;
-				str[i++] = '\'';
-			}
-			else
-				str[i++] = 1;
+			str[i++] = 1;
 			while (str[i] != '\0' && str[i] != '\'')
 				i++;
-			if (str[i - 1] == '\\')
-				str[i - 1] = '\'';
-			str[i++] = 1;
+			str[i] = 1;
 		}
 		if (str[i] == c)
 			str[i] = 1;
