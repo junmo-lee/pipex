@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:22:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/08 20:10:58 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/20 16:20:17 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ void	check_cmd_access(t_vars *vars, t_cmd *cmd)
 		i++;
 	}
 	if (cmd->cant_execute)
-		write_stderr_exit("permission denied: ", cmd->cmd_name, 126);
+		write_stderr_exit("Permission denied: ", cmd->cmd_name, 126);
 	else
-		write_stderr_exit("command not found: ", cmd->cmd_name, 127);
+		write_stderr_exit("Command not found: ", cmd->cmd_name, 127);
 }
 
 t_cmd	*cmd_init(t_vars *vars, char *cmd_argv)
