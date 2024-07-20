@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:56:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/20 21:41:00 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:02:26 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,5 @@ void	write_here_doc(t_vars *vars);
 
 int		free_strs(char *strs[], int exit_code);
 void	free_cmds(t_cmd *cmd);
-
+int 	check_fd(void);
 #endif

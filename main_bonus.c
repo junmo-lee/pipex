@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:53:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/20 21:50:48 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:08:09 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,12 @@ int	wait_processes(t_vars *var, t_cmd *cmd[])
 	}
 	close(var->file1_read_fd);
 	close(var->file2_write_fd);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
+	close(var->prev_read);
+	close(var->next_write);
 	if (var->is_here_doc == 1)
 		unlink(".here_doc");
 	free_strs(var->path, EXIT_SUCCESS);
+	check_fd();
 	return (get_exit_status(cmd[var->cmd_len - 1]->status));
 }
 

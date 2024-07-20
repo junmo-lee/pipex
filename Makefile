@@ -27,7 +27,8 @@ SRCS	= main.c \
 SRCS_B	= main_bonus.c \
 			gnl/get_next_line.c gnl/get_next_line_utils.c \
 			utils_bonus.c read_file_bonus.c write_file_bonus.c \
-			path_join_bonus.c pipex_init_bonus.c do_pipex_bonus.c 
+			path_join_bonus.c pipex_init_bonus.c do_pipex_bonus.c \
+			check_fd.c
 
 OBJS	= $(SRCS:.c=.o)
 OBJS_B	= $(SRCS_B:.c=.o)

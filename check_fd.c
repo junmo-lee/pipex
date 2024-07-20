@@ -1,0 +1,51 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_fd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/20 22:02:05 by junmlee           #+#    #+#             */
+/*   Updated: 2024/07/20 22:07:23 by junmlee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <libproc.h>
+
+int check_fd(void) 
+{
+    pid_t pid = getpid();
+    int bufferSize = proc_pidinfo(pid, PROC_PIDLISTFDS, 0, NULL, 0);
+    
+    if (bufferSize == -1) {
+        perror("proc_pidinfo");
+        return 1;
+    }
+    
+    struct proc_fdinfo *fds = malloc(bufferSize);
+    if (fds == NULL) {
+        perror("malloc");
+        return 1;
+    }
+    
+    bufferSize = proc_pidinfo(pid, PROC_PIDLISTFDS, 0, fds, bufferSize);
+    if (bufferSize == -1) {
+        perror("proc_pidinfo");
+        free(fds);
+        return 1;
+    }
+    
+    int numberOfFDs = bufferSize / PROC_PIDLISTFD_SIZE;
+    
+    fprintf(stderr, "PID: %5d ", pid);
+    for (int i = 0; i < numberOfFDs; i++) {
+        fprintf(stderr, "%d ", fds[i].proc_fd);
+    }
+	fprintf(stderr, "\n");
+    
+    free(fds);
+    return 0;
+}

@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:57:08 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/20 20:51:57 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:05:07 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	child(t_vars *vars, t_cmd *cmd)
 		exit(EXIT_FAILURE);
 	close(vars->next_write);
 	close(vars->pipe_fd[0]);
+	check_fd();
 	if (access(cmd->cmd_name, X_OK) == 0)
 		cmd->cmd_path = cmd->cmd_name;
 	else
@@ -62,6 +63,7 @@ void	do_pipex_bonus(t_vars *vars, t_cmd *cmd[])
 				close(vars->next_write);
 				vars->prev_read = dup(vars->pipe_fd[0]);
 				close(vars->pipe_fd[0]);
+				check_fd();
 			}
 		}
 		count++;
