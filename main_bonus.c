@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:53:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/20 20:44:23 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/20 21:50:48 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,28 @@ int	get_exit_status(int status)
 int	wait_processes(t_vars *var, t_cmd *cmd[])
 {
 	int	count;
-	int	last_status;
+	int	exit_count;
+	int	ret;
 
-	last_status = 0;
-	count = 0;
-	while (count < var->cmd_len)
+	exit_count = 0;
+	while (exit_count < var->cmd_len)
 	{
-		if (waitpid(cmd[count]->pid, &(cmd[count]->status), 0) == -1)
-			return (EXIT_FAILURE);
-		if (count == var->cmd_len - 1)
-			last_status = get_exit_status(cmd[count]->status);
-		free_cmds(cmd[count]);
-		count++;
+		count = 0;
+		while (count < var->cmd_len)
+		{
+			ret = 0;
+			if (cmd[count]->is_end != 1)
+				ret = waitpid(cmd[count]->pid, &(cmd[count]->status), WNOHANG);
+			if (ret == -1)
+				return (EXIT_FAILURE);
+			else if (ret != 0)
+			{
+				cmd[count]->is_end = 1;
+				exit_count++;
+				free_cmds(cmd[count]);
+			}
+			count++;
+		}
 	}
 	close(var->file1_read_fd);
 	close(var->file2_write_fd);
@@ -40,7 +50,7 @@ int	wait_processes(t_vars *var, t_cmd *cmd[])
 	if (var->is_here_doc == 1)
 		unlink(".here_doc");
 	free_strs(var->path, EXIT_SUCCESS);
-	return (last_status);
+	return (get_exit_status(cmd[var->cmd_len - 1]->status));
 }
 
 void	bonus_get_fds(t_vars *vars)

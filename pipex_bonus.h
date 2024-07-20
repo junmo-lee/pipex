@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:56:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/20 19:11:49 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/20 21:41:00 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_cmd
 	char	**envp;
 	int		cant_execute;
 	int		status;
+	int		is_end;
 }	t_cmd;
 
 typedef struct s_vars

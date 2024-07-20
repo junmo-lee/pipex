@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:59:30 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/10 17:59:35 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/20 21:42:36 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,15 @@ int	free_strs(char *strs[], int exit_code)
 
 void	free_cmds(t_cmd *cmd)
 {
-	char	*temp;
-
 	ft_memset(cmd->cmd_name, 0, ft_strlen(cmd->cmd_name));
 	free(cmd->cmd_name);
 	free_strs(cmd->args, EXIT_SUCCESS);
-	temp = cmd->cmd_path;
-	ft_memset(cmd, 0, sizeof(t_cmd));
-	free(cmd);
-	if (temp == NULL)
+	// ft_memset(cmd, 0, sizeof(t_cmd));
+	// free(cmd);
+	if (cmd->cmd_path == NULL)
 		return ;
-	ft_memset(temp, 0, ft_strlen(temp));
-	free(temp);
+	ft_memset(cmd->cmd_path, 0, ft_strlen(cmd->cmd_path));
+	free(cmd->cmd_path);
 }
 
 char	**pipex_split(char *str, char c)

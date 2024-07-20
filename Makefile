@@ -7,7 +7,7 @@ DEBUG_NAME = debug
 DEBUG_NAME_B = debug_bonus
 
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -MMD -MP
+CFLAGS	= -Wall -Wextra -Werror -MMD -MP -g -fsanitize=address
 
 LIBFT = ./libft/libft.a
 LIBFT_DIR = ./libft/
