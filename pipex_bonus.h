@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:56:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/10 18:07:42 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/20 19:11:49 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_cmd
 	char	*cmd_name;
 	char	**args;
 	char	**envp;
-	int		pipe_fd[2];
 	int		cant_execute;
 	int		status;
 }	t_cmd;
@@ -41,9 +40,12 @@ typedef struct s_vars
 	char			**path;
 	int				file1_read_fd;
 	int				file2_write_fd;
+	int				here_doc_fd;
+	int				pipe_fd[2];
+	int				prev_read;
+	int				next_write;
 	int				cmd_len;
 	int				is_here_doc;
-	int				here_doc_fd;
 }	t_vars;
 
 char	*path_join(char const *s1, char const *s2);

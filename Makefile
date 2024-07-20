@@ -3,6 +3,9 @@
 NAME	= pipex
 NAME_B	= pipex_bonus
 
+DEBUG_NAME = debug
+DEBUG_NAME_B = debug_bonus
+
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror -MMD -MP
 
@@ -33,6 +36,10 @@ DEF		= $(SRCS:.c=.d)
 DEF_B	= $(SRCS_B:.c=.d)
 -include $(DEF) $(DEF_B)
 
+ifdef DEBUG_FLAG
+	CFLAGS += -g3 -fsanitize=address
+endif
+
 $(LIBFT) :
 	make -C $(LIBFT_DIR) all
 
@@ -47,6 +54,14 @@ $(NAME): $(LIBFT) $(OBJS)
 $(NAME_B): $(LIBFT) $(OBJS_B)
 	cp $(LIBFT) $(NAME_B)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $^ -o $(NAME_B) -I $(INC_B)
+
+$(DEBUG_NAME): $(LIBFT) $(OBJS)
+	cp $(LIBFT) $(DEBUG_NAME)
+	$(CC) $(CFLAGS) $(CDEF) $^ -o $(DEBUG_NAME) -I $(INC) $(LIBS)
+
+$(DEBUG_NAME_B): $(LIBFT) $(OBJS_B)
+	cp $(LIBFT) $(DEBUG_NAME_B)
+	$(CC) $(CFLAGS) $(CDEF) $^ -o $(DEBUG_NAME_B) -I $(INC_B) $(LIBS)
 
 all : $(NAME)
 bonus : $(NAME_B)
