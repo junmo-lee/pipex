@@ -1,10 +1,6 @@
 .DEFAULT_GOAL := all
 
 NAME	= pipex
-NAME_B	= pipex_bonus
-
-DEBUG_NAME = debug
-DEBUG_NAME_B = debug_bonus
 
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror -MMD -MP # -g -fsanitize=address
@@ -50,25 +46,20 @@ $(LIBFT) :
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(LIBFT) $(OBJS)
+LAST_ALL: $(LIBFT) $(OBJS)
+	rm -f LAST_BONUS
 	cp $(LIBFT) $(NAME)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $^ -o $(NAME) -I $(INC)
+	touch $@
 
+LAST_BONUS: $(LIBFT) $(OBJS_B)
+	rm -f LAST_ALL
+	cp $(LIBFT) $(NAME)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $^ -o $(NAME) -I $(INC_B)
+	touch $@
 
-$(NAME_B): $(LIBFT) $(OBJS_B)
-	cp $(LIBFT) $(NAME_B)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $^ -o $(NAME_B) -I $(INC_B)
-
-$(DEBUG_NAME): $(LIBFT) $(OBJS)
-	cp $(LIBFT) $(DEBUG_NAME)
-	$(CC) $(CFLAGS) $(CDEF) $^ -o $(DEBUG_NAME) -I $(INC) $(LIBS)
-
-$(DEBUG_NAME_B): $(LIBFT) $(OBJS_B)
-	cp $(LIBFT) $(DEBUG_NAME_B)
-	$(CC) $(CFLAGS) $(CDEF) $^ -o $(DEBUG_NAME_B) -I $(INC_B) $(LIBS)
-
-all : $(NAME)
-bonus : $(NAME_B)
+all: LAST_ALL
+bonus: LAST_BONUS
 
 clean :
 	make -C $(LIBFT_DIR) clean
