@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:57:08 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/21 20:21:58 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/21 21:38:18 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	check_local_path(t_vars *vars, t_cmd *cmd)
 	}
 	else
 	{
-		temp = path_join(vars->pwd, cmd->cmd_argv);
+		vars++;
+		temp = ft_substr(cmd->cmd_argv, 2, ft_strlen(cmd->cmd_argv) - 2);
 		if (access(temp, X_OK) == 0)
 		{
 			cmd->cmd_path = temp;

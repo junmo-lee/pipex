@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:58:43 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/21 19:06:14 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/21 21:43:33 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,6 @@ int	import_path(t_vars *vars)
 	return (1);
 }
 
-int	get_pwd(t_vars *vars)
-{
-	int		i;
-
-	i = 0;
-	while (vars->envp[i] != NULL)
-	{
-		if (ft_strncmp(vars->envp[i], "PWD=", 4) == 0)
-		{
-			vars->pwd = ft_substr(vars->envp[i], 4, ft_strlen(vars->envp[i]));
-			if (vars->pwd == NULL)
-				exit(EXIT_FAILURE);
-			return (0);
-		}
-		i++;
-	}
-	return (1);
-}
-
 void	init(t_vars *vars, int argc, char *argv[], char *envp[])
 {
 	ft_memset(vars, 0, sizeof(vars));
@@ -62,8 +43,6 @@ void	init(t_vars *vars, int argc, char *argv[], char *envp[])
 	vars->argv = argv;
 	vars->envp = envp;
 	if (import_path(vars) == 1)
-		exit(EXIT_FAILURE);
-	if (get_pwd(vars) == 1)
 		exit(EXIT_FAILURE);
 }
 
