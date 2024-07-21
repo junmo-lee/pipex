@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:25:26 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/10 18:51:29 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/20 18:34:01 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	child(t_vars *vars, t_cmd *cmd[], int count)
 		cmd[count]->cmd_path = cmd[count]->cmd_name;
 	else
 		check_cmd_access(vars, cmd[count]);
-	execve(cmd[count]->cmd_path, cmd[count]->args, cmd[count]->envp);
+	if (execve(cmd[count]->cmd_path, cmd[count]->args, cmd[count]->envp) == -1)
+		exit(1);
 }
 
 void	do_pipex(t_vars *vars, t_cmd *cmd[])

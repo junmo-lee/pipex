@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:59:30 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/10 17:59:35 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/21 19:04:07 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,45 +50,11 @@ int	free_strs(char *strs[], int exit_code)
 
 void	free_cmds(t_cmd *cmd)
 {
-	char	*temp;
-
 	ft_memset(cmd->cmd_name, 0, ft_strlen(cmd->cmd_name));
 	free(cmd->cmd_name);
 	free_strs(cmd->args, EXIT_SUCCESS);
-	temp = cmd->cmd_path;
-	ft_memset(cmd, 0, sizeof(t_cmd));
-	free(cmd);
-	if (temp == NULL)
+	if (cmd->cmd_path == NULL)
 		return ;
-	ft_memset(temp, 0, ft_strlen(temp));
-	free(temp);
-}
-
-char	**pipex_split(char *str, char c)
-{
-	int		i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '\'')
-		{
-			if (i != 0 && str[i - 1] == '\\')
-			{
-				str[i - 1] = 1;
-				str[i++] = '\'';
-			}
-			else
-				str[i++] = 1;
-			while (str[i] != '\0' && str[i] != '\'')
-				i++;
-			if (str[i - 1] == '\\')
-				str[i - 1] = '\'';
-			str[i++] = 1;
-		}
-		if (str[i] == c)
-			str[i] = 1;
-		i++;
-	}
-	return (ft_split(str, 1));
+	ft_memset(cmd->cmd_path, 0, ft_strlen(cmd->cmd_path));
+	free(cmd->cmd_path);
 }

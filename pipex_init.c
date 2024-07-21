@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 20:22:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/20 16:20:17 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/21 19:49:40 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,6 @@ void	init(t_vars *vars, int argc, char *argv[], char *envp[])
 		}
 	}
 	exit(EXIT_FAILURE);
-}
-
-int	parse_name_args(t_cmd *cmd, char *cmd_argv)
-{
-	char	**temp;
-
-	temp = pipex_split(cmd_argv, ' ');
-	if (temp == NULL)
-		exit(EXIT_FAILURE);
-	cmd->cmd_name = ft_strdup(*temp);
-	cmd->args = temp;
-	return (0);
 }
 
 void	check_cmd_access(t_vars *vars, t_cmd *cmd)

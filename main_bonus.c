@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:53:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/20 16:16:21 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/21 18:19:19 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,41 @@ int	get_exit_status(int status)
 	return (((*(int *)&(status)) >> 8) & 0x000000ff);
 }
 
-int	wait_processes(t_vars *var, t_cmd *cmd[])
+void	wait_processes(t_vars *vars, t_cmd *cmd[])
 {
 	int	count;
-	int	last_status;
+	int	exit_count;
+	int	ret;
 
-	last_status = 0;
-	count = 0;
-	while (count < var->cmd_len)
+	exit_count = 0;
+	while (exit_count < vars->cmd_len)
 	{
-		if (waitpid(cmd[count]->pid, &(cmd[count]->status), 0) == -1)
-			return (EXIT_FAILURE);
-		if (count == var->cmd_len - 1)
-			last_status = get_exit_status(cmd[count]->status);
-		free_cmds(cmd[count]);
-		count++;
+		count = 0;
+		while (count < vars->cmd_len)
+		{
+			ret = 0;
+			if (cmd[count]->is_end != 1)
+				ret = waitpid(cmd[count]->pid, &(cmd[count]->status), WNOHANG);
+			if (ret == -1)
+				exit (EXIT_FAILURE);
+			else if (ret != 0)
+			{
+				cmd[count]->is_end = 1;
+				exit_count++;
+				free_cmds(cmd[count]);
+			}
+			count++;
+		}
 	}
-	close(var->file1_read_fd);
-	close(var->file2_write_fd);
-	if (var->is_here_doc == 1)
+}
+
+int	main_return(t_vars *vars, t_cmd *cmd[])
+{
+	wait_processes(vars, cmd);
+	if (vars->is_here_doc == 1)
 		unlink(".here_doc");
-	free_strs(var->path, EXIT_SUCCESS);
-	return (last_status);
+	free_strs(vars->path, EXIT_SUCCESS);
+	return (get_exit_status(cmd[vars->cmd_len - 1]->status));
 }
 
 void	bonus_get_fds(t_vars *vars)
@@ -73,10 +86,7 @@ int	main(int argc, char *argv[], char *envp[])
 	if (argc < 5)
 		exit(free_strs(vars.path, EXIT_FAILURE));
 	bonus_get_fds(&vars);
-	if (vars.is_here_doc == 1)
-		vars.cmd_len = argc - 4;
-	else
-		vars.cmd_len = argc - 3;
+	vars.cmd_len = argc - 3 - vars.is_here_doc;
 	do_pipex_bonus(&vars, cmd);
-	return (wait_processes(&vars, cmd));
+	return (main_return(&vars, cmd));
 }
