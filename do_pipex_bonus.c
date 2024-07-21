@@ -6,14 +6,14 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:57:08 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/21 17:25:28 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/21 17:36:58 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 #include <stdio.h>
 
-void	child(t_vars *vars, t_cmd *cmd, int count)
+void	child(t_vars *vars, t_cmd *cmd)
 {
 	if (dup2(vars->prev_read, STDIN_FILENO) == -1)
 		exit(EXIT_FAILURE);
@@ -22,7 +22,6 @@ void	child(t_vars *vars, t_cmd *cmd, int count)
 		exit(EXIT_FAILURE);
 	close(vars->next_write);
 	close(vars->pipe_fd[0]);
-	check_fd(ft_strjoin("cmd", ft_itoa(count)));
 	if (access(cmd->cmd_name, X_OK) == 0)
 		cmd->cmd_path = cmd->cmd_name;
 	else
@@ -58,12 +57,11 @@ void	do_pipex_bonus(t_vars *vars, t_cmd *cmd[])
 		if (fork_ret == -1)
 			exit(EXIT_FAILURE);
 		else if (fork_ret == 0)
-			child(vars, cmd[count], count);
+			child(vars, cmd[count]);
 		else
 		{
 			cmd[count]->pid = fork_ret;
 			close_fd_main(vars, count);
-			check_fd("main");
 		}
 		count++;
 	}
