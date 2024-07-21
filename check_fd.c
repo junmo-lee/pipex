@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:02:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/20 22:07:23 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/21 16:38:40 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <libproc.h>
 
-int check_fd(void) 
+int check_fd(char *str) 
 {
     pid_t pid = getpid();
     int bufferSize = proc_pidinfo(pid, PROC_PIDLISTFDS, 0, NULL, 0);
@@ -40,7 +40,8 @@ int check_fd(void)
     
     int numberOfFDs = bufferSize / PROC_PIDLISTFD_SIZE;
     
-    fprintf(stderr, "PID: %5d ", pid);
+    fprintf(stderr, "%s", str);
+    fprintf(stderr, "(%5d): ", pid);
     for (int i = 0; i < numberOfFDs; i++) {
         fprintf(stderr, "%d ", fds[i].proc_fd);
     }

@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:58:43 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/20 16:20:18 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/21 16:19:13 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	check_cmd_access(t_vars *vars, t_cmd *cmd)
 		write_stderr_exit("Command not found: ", cmd->cmd_name, 127);
 }
 
-t_cmd	*cmd_init(t_vars *vars, char *cmd_argv)
+t_cmd	*cmd_init(t_vars *vars, int count, char *cmd_argv)
 {
 	t_cmd	*ret;
 
@@ -116,5 +116,17 @@ t_cmd	*cmd_init(t_vars *vars, char *cmd_argv)
 	ft_memset(ret, 0, sizeof(t_cmd));
 	ret->envp = vars->envp;
 	parse_name_args(ret, cmd_argv);
+	if (count != vars->cmd_len - 1)
+	{
+		if (pipe(vars->pipe_fd) == -1)
+			exit(EXIT_FAILURE);
+		vars->next_write = dup(vars->pipe_fd[1]);
+		close(vars->pipe_fd[1]);
+	}
+	else
+	{
+		vars->next_write = dup(vars->file2_write_fd);
+		close(vars->file2_write_fd);
+	}
 	return (ret);
 }

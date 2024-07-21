@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:53:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/20 22:08:09 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/21 17:25:46 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,10 @@ int	wait_processes(t_vars *var, t_cmd *cmd[])
 			count++;
 		}
 	}
-	close(var->file1_read_fd);
-	close(var->file2_write_fd);
-	close(var->prev_read);
-	close(var->next_write);
 	if (var->is_here_doc == 1)
 		unlink(".here_doc");
 	free_strs(var->path, EXIT_SUCCESS);
-	check_fd();
+	check_fd("exit_main");
 	return (get_exit_status(cmd[var->cmd_len - 1]->status));
 }
 
@@ -87,6 +83,7 @@ int	main(int argc, char *argv[], char *envp[])
 	// 	exit(free_strs(vars.path, EXIT_FAILURE));
 	bonus_get_fds(&vars);
 	vars.cmd_len = argc - 3 - vars.is_here_doc;
+	check_fd("start_main");
 	do_pipex_bonus(&vars, cmd);
 	return (wait_processes(&vars, cmd));
 }
