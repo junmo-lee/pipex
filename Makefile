@@ -18,11 +18,15 @@ LDLIBS	= -lft
 INC		= pipex.h
 INC_B	= pipex_bonus.h
 
-SRCS	= main.c \
-			gnl/get_next_line.c gnl/get_next_line_utils.c \
-			utils.c read_file.c write_file.c pipex_split.c \
-			path_join.c pipex_init.c do_pipex.c 
+# SRCS	= main.c \
+# 			gnl/get_next_line.c gnl/get_next_line_utils.c \
+# 			utils.c read_file.c write_file.c pipex_split.c \
+# 			path_join.c pipex_init.c do_pipex.c 
 			
+SRCS = main_bonus.c \
+			gnl/get_next_line.c gnl/get_next_line_utils.c \
+			utils_bonus.c read_file_bonus.c write_file_bonus.c pipex_split_bonus.c\
+			path_join_bonus.c pipex_init_bonus.c do_pipex_bonus.c 
 
 SRCS_B	= main_bonus.c \
 			gnl/get_next_line.c gnl/get_next_line_utils.c \

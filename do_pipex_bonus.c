@@ -6,27 +6,35 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:57:08 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/21 19:06:18 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/21 20:21:58 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+#include <stdio.h>
 
 int	check_local_path(t_vars *vars, t_cmd *cmd)
 {
 	char	*temp;
 
-	temp = path_join(vars->pwd, cmd->cmd_argv);
-	if (access(temp, X_OK) == 0)
+	if (access(cmd->cmd_name, X_OK) == 0)
 	{
-		cmd->cmd_path = temp;
-		cmd->args = NULL;
+		cmd->cmd_path = cmd->cmd_name;
 		return (1);
 	}
 	else
 	{
-		ft_memset(temp, 0, ft_strlen(temp));
-		free(temp);
+		temp = path_join(vars->pwd, cmd->cmd_argv);
+		if (access(temp, X_OK) == 0)
+		{
+			cmd->cmd_path = temp;
+			return (1);
+		}
+		else
+		{
+			ft_memset(temp, 0, ft_strlen(temp));
+			free(temp);
+		}
 	}
 	return (0);
 }
