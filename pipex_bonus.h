@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:56:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/21 17:36:06 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/21 19:04:24 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_cmd
 	char	*cmd_name;
 	char	**args;
 	char	**envp;
+	char	*cmd_argv;
 	int		cant_execute;
 	int		status;
 	int		is_end;
@@ -47,6 +48,7 @@ typedef struct s_vars
 	int				next_write;
 	int				cmd_len;
 	int				is_here_doc;
+	char			*pwd;
 }	t_vars;
 
 char	*path_join(char const *s1, char const *s2);
@@ -59,6 +61,7 @@ void	check_cmd_access(t_vars *vars, t_cmd *cmd);
 int		write_stderr(char *error_msg, char *name);
 void	write_stderr_exit(char *error_msg, char *name, int errorcode);
 char	**pipex_split(char *str, char c);
+int		parse_name_args(t_cmd *cmd, char *cmd_argv);
 
 void	read_file(int *fd, char *file_path, int option);
 

@@ -6,12 +6,30 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:57:08 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/21 17:36:58 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/21 19:06:18 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-#include <stdio.h>
+
+int	check_local_path(t_vars *vars, t_cmd *cmd)
+{
+	char	*temp;
+
+	temp = path_join(vars->pwd, cmd->cmd_argv);
+	if (access(temp, X_OK) == 0)
+	{
+		cmd->cmd_path = temp;
+		cmd->args = NULL;
+		return (1);
+	}
+	else
+	{
+		ft_memset(temp, 0, ft_strlen(temp));
+		free(temp);
+	}
+	return (0);
+}
 
 void	child(t_vars *vars, t_cmd *cmd)
 {
@@ -22,9 +40,7 @@ void	child(t_vars *vars, t_cmd *cmd)
 		exit(EXIT_FAILURE);
 	close(vars->next_write);
 	close(vars->pipe_fd[0]);
-	if (access(cmd->cmd_name, X_OK) == 0)
-		cmd->cmd_path = cmd->cmd_name;
-	else
+	if (check_local_path(vars, cmd) == 0)
 		check_cmd_access(vars, cmd);
 	if (execve(cmd->cmd_path, cmd->args, cmd->envp) == -1)
 		exit(EXIT_FAILURE);
@@ -39,6 +55,35 @@ void	close_fd_main(t_vars *vars, int count)
 		vars->prev_read = dup(vars->pipe_fd[0]);
 		close(vars->pipe_fd[0]);
 	}
+}
+
+void	check_cmd_access(t_vars *vars, t_cmd *cmd)
+{
+	char	*temp;
+	int		i;
+
+	i = 0;
+	while (vars->path[i] != NULL)
+	{
+		temp = path_join(vars->path[i], cmd->cmd_name);
+		if (temp == NULL)
+			exit(EXIT_FAILURE);
+		if (access(temp, F_OK) == 0)
+		{
+			cmd->cant_execute = 1;
+			if (access(temp, X_OK) == 0)
+			{
+				cmd->cmd_path = temp;
+				return ;
+			}
+		}
+		free(temp);
+		i++;
+	}
+	if (cmd->cant_execute)
+		write_stderr_exit("Permission denied: ", cmd->cmd_name, 126);
+	else
+		write_stderr_exit("Command not found: ", cmd->cmd_name, 127);
 }
 
 void	do_pipex_bonus(t_vars *vars, t_cmd *cmd[])
