@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:57:08 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/22 17:11:34 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/22 17:21:57 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	check_cmd_access(t_vars *vars, t_cmd *cmd)
 		write_stderr_exit("Command not found: ", cmd->cmd_name, 127);
 }
 
-void	do_pipex_bonus(t_vars *vars, t_cmd *cmd)
+void	do_pipex(t_vars *vars, t_cmd *cmd)
 {
 	int		count;
 	pid_t	fork_ret;
@@ -105,7 +105,7 @@ void	do_pipex_bonus(t_vars *vars, t_cmd *cmd)
 	while (count < vars->cmd_len)
 	{
 		cmd_init(vars, (cmd + count), count, \
-			vars->argv[count + 2 + vars->is_here_doc]);
+			vars->argv[count + 2]);
 		fork_ret = fork();
 		if (fork_ret == -1)
 			exit(EXIT_FAILURE);

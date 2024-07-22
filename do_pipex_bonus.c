@@ -6,12 +6,11 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:57:08 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/22 17:07:29 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/22 17:22:37 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-#include <stdio.h>
 
 int	check_local_path(t_vars *vars, t_cmd *cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:56:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/22 17:13:31 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/22 17:21:43 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,17 @@ typedef struct s_vars
 	char			**path;
 	int				file1_read_fd;
 	int				file2_write_fd;
-	int				here_doc_fd;
 	int				pipe_fd[2];
 	int				prev_read;
 	int				next_write;
 	int				cmd_len;
-	int				is_here_doc;
-	char			*pwd;
 }	t_vars;
 
 char	*path_join(char const *s1, char const *s2);
 void	init(t_vars *vars, int argc, char *argv[], char *envp[]);
 void	cmd_init(t_vars *vars, t_cmd *cmd, int count, char *cmd_argv);
 
-void	do_pipex_bonus(t_vars *vars, t_cmd *cmd);
+void	do_pipex(t_vars *vars, t_cmd *cmd);
 void	check_cmd_access(t_vars *vars, t_cmd *cmd);
 
 int		write_stderr(char *error_msg, char *name);

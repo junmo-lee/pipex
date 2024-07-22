@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:53:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/22 17:14:34 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/22 17:22:01 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,33 +49,8 @@ void	wait_processes(t_vars *vars, t_cmd *cmd)
 int	main_return(t_vars *vars, t_cmd *cmd)
 {
 	wait_processes(vars, cmd);
-	if (vars->is_here_doc == 1)
-		unlink(".here_doc");
 	free_strs(vars->path, EXIT_SUCCESS);
 	return (get_exit_status((cmd + (vars->cmd_len - 1))->status));
-}
-
-void	bonus_get_fds(t_vars *vars)
-{
-	if (ft_strncmp(vars->argv[1], "here_doc", ft_strlen(vars->argv[1])) == 0 \
-		&& ft_strlen(vars->argv[1]) == ft_strlen("here_doc"))
-	{
-		vars->is_here_doc = 1;
-		unlink(".here_doc");
-		write_file(&(vars->here_doc_fd), ".here_doc", \
-			O_WRONLY | O_CREAT | O_TRUNC);
-		write_here_doc(vars);
-		read_file(&(vars->file1_read_fd), ".here_doc", O_RDONLY);
-		write_file(&(vars->file2_write_fd), vars->argv[vars->argc - 1], \
-			O_WRONLY | O_CREAT | O_APPEND);
-	}
-	else
-	{
-		vars->is_here_doc = 0;
-		read_file(&(vars->file1_read_fd), vars->argv[1], O_RDONLY);
-		write_file(&(vars->file2_write_fd), vars->argv[vars->argc - 1], \
-			O_WRONLY | O_CREAT | O_TRUNC);
-	}
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -86,8 +61,10 @@ int	main(int argc, char *argv[], char *envp[])
 	init(&vars, argc, argv, envp);
 	if (argc < 5)
 		exit(free_strs(vars.path, EXIT_FAILURE));
-	bonus_get_fds(&vars);
-	vars.cmd_len = argc - 3 - vars.is_here_doc;
-	do_pipex_bonus(&vars, cmd);
+	read_file(&vars.file1_read_fd, vars.argv[1], O_RDONLY);
+	write_file(&vars.file2_write_fd, vars.argv[vars.argc - 1], \
+		O_WRONLY | O_CREAT | O_TRUNC);
+	vars.cmd_len = argc - 3;
+	do_pipex(&vars, cmd);
 	return (main_return(&vars, cmd));
 }
