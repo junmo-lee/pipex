@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:56:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/21 19:04:24 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/22 17:08:37 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ typedef struct s_vars
 
 char	*path_join(char const *s1, char const *s2);
 void	init(t_vars *vars, int argc, char *argv[], char *envp[]);
-t_cmd	*cmd_init(t_vars *vars, int count, char *cmd_argv);
+void	cmd_init(t_vars *vars, t_cmd *cmd, int count, char *cmd_argv);
 
-void	do_pipex_bonus(t_vars *vars, t_cmd *cmd[]);
+void	do_pipex_bonus(t_vars *vars, t_cmd *cmd);
 void	check_cmd_access(t_vars *vars, t_cmd *cmd);
 
 int		write_stderr(char *error_msg, char *name);
@@ -71,7 +71,7 @@ void	write_here_doc(t_vars *vars);
 int		free_strs(char *strs[], int exit_code);
 void	free_cmds(t_cmd *cmd);
 
-void	wait_processes(t_vars *vars, t_cmd *cmd[]);
-int		main_return(t_vars *vars, t_cmd *cmd[]);
+void	wait_processes(t_vars *vars, t_cmd *cmd);
+int		main_return(t_vars *vars, t_cmd *cmd);
 
 #endif

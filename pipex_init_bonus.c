@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:58:43 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/21 21:43:33 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/22 17:07:10 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,11 @@ void	init(t_vars *vars, int argc, char *argv[], char *envp[])
 		exit(EXIT_FAILURE);
 }
 
-t_cmd	*cmd_init(t_vars *vars, int count, char *cmd_argv)
+void	cmd_init(t_vars *vars, t_cmd *cmd, int count, char *cmd_argv)
 {
-	t_cmd	*ret;
-
-	ret = malloc(sizeof(t_cmd));
-	if (ret == NULL)
-		exit(EXIT_FAILURE);
-	ft_memset(ret, 0, sizeof(t_cmd));
-	ret->envp = vars->envp;
-	ret->cmd_argv = ft_strdup(cmd_argv);
-	parse_name_args(ret, cmd_argv);
+	cmd->envp = vars->envp;
+	cmd->cmd_argv = ft_strdup(cmd_argv);
+	parse_name_args(cmd, cmd_argv);
 	if (count != vars->cmd_len - 1)
 	{
 		if (pipe(vars->pipe_fd) == -1)
@@ -69,5 +63,4 @@ t_cmd	*cmd_init(t_vars *vars, int count, char *cmd_argv)
 		vars->next_write = dup(vars->file2_write_fd);
 		close(vars->file2_write_fd);
 	}
-	return (ret);
 }
