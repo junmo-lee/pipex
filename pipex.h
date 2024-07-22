@@ -6,15 +6,15 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:56:28 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/22 17:21:43 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/22 17:45:18 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "../libft/libft.h"
-# include "../gnl/get_next_line.h"
+# include "libft/libft.h"
+# include "gnl/get_next_line.h"
 
 # include <unistd.h>
 # include <fcntl.h>
