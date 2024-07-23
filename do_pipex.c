@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:57:08 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/22 17:21:57 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/23 15:11:36 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	child(t_vars *vars, t_cmd *cmd)
 		check_cmd_access(vars, cmd);
 	if (execve(cmd->cmd_path, cmd->args, cmd->envp) == -1)
 		exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 
 void	close_fd_main(t_vars *vars, int count)

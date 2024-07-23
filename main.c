@@ -6,7 +6,7 @@
 /*   By: junmlee <junmlee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 18:53:05 by junmlee           #+#    #+#             */
-/*   Updated: 2024/07/22 17:22:01 by junmlee          ###   ########.fr       */
+/*   Updated: 2024/07/23 15:13:08 by junmlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ int	main_return(t_vars *vars, t_cmd *cmd)
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_vars	vars;
-	t_cmd	cmd[OPEN_MAX];
+	t_cmd	cmd[2];
 
 	init(&vars, argc, argv, envp);
-	if (argc < 5)
+	if (argc != 5)
 		exit(free_strs(vars.path, EXIT_FAILURE));
 	read_file(&vars.file1_read_fd, vars.argv[1], O_RDONLY);
 	write_file(&vars.file2_write_fd, vars.argv[vars.argc - 1], \
